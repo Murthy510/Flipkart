@@ -1,0 +1,103 @@
+Hadoop Commands :
+
+changing the hadoop path:
+
+cd usr/lib/hadoop
+cloudera@quickstart ]$ cd usr/lib/hadoop
+
+listing files and directories in hdfs root folder:
+
+cloudera@quickstart hadoop]$ hadoop dfs -ls /
+Found 10 items
+drwxrwxrwx   - hdfs     supergroup          0 2017-04-05 03:59 /benchmarks
+-rw-r--r--   1 cloudera supergroup        116 2017-07-18 10:04 /cust
+drwxr-xr-x   - hbase    supergroup          0 2018-04-02 19:16 /hbase
+drwxr-xr-x   - solr     solr                0 2017-04-05 04:01 /user
+
+
+create new directory in hdfs system:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -mkdir /user/hdfs/murthy
+
+checking new directory in hdfs :
+
+[cloudera@quickstart hadoop]$ hadoop dfs -ls /user/hdfs
+drwxrwxrwx   - cloudera supergroup          0 2018-03-12 19:25 /user/hdfs/murthy
+
+change the permissions for new directory:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -chmod 776 /user/hdfs/murthy
+
+checking permissions for changing directory:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -ls /user/hdfs
+Found 2 items
+drwxr-xr-x   - hdfs     supergroup          0 2017-06-24 07:39 /user/hdfs/.Trash
+drwxrwxrw-   - cloudera supergroup          0 2018-03-12 19:25 /user/hdfs/murthy
+
+copy the file from local system to hdfs system under murthy directory:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -copyFromLocal -f /home/cloudera/murthy/sample.txt /user/hdfs/murthy
+
+[cloudera@quickstart hadoop]$ hadoop dfs -ls /user/hdfs/murthy
+Found 2 items
+-rw-r--r--   1 cloudera supergroup         65 2018-04-03 20:05 /user/hdfs/murthy/sample.txt
+
+displaying content of the file in hdfs:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -cat /user/hdfs/murthy/sample.txt
+
+copy the file from hdfs into local system :
+
+[cloudera@quickstart hadoop]$ hadoop dfs -copyToLocal /user/hdfs/murthy/sample10.txt /home/cloudera/murthy
+
+[cloudera@quickstart /]$ cd /home/cloudera/murthy
+[cloudera@quickstart murthy]$ ls -ltr
+-rw-r--r-- 1 cloudera cloudera  0 Apr  3 20:13 sample10.txt
+
+move the file from local system into hdfs:
+
+cloudera@quickstart hadoop]$ hadoop dfs -moveFromLocal /home/cloudera/murthy/append.txt /user/hdfs/murthy
+
+[cloudera@quickstart hadoop]$ hadoop dfs -ls /user/hdfs/murthy
+-rw-r--r--   1 cloudera supergroup         61 2018-04-03 20:17 /user/hdfs/murthy/append.txt
+
+move the file from hdfs into Local system:
+
+moveToLocal: Option '-moveToLocal' is not implemented yet.
+
+find the size of the each file :
+
+[cloudera@quickstart hadoop]$ hadoop dfs -du /user/hdfs/murthy/append.txt
+61  61  /user/hdfs/murthy/append.txt
+
+find the summary of the files in directory:
+
+[cloudera@quickstart hadoop]$ hadoop dfs -du -s /user/hdfs/murthy
+126  126  /user/hdfs/murthy
+
+[cloudera@quickstart hadoop]$ hadoop dfs -touchz /user/hdfs/murthy/coverage.txt
+[cloudera@quickstart hadoop]$ hadoop dfs -chmod 777 /user/hdfs/murthy/coverage.txt
+[cloudera@quickstart hadoop]$ hadoop dfs -rm /user/hdfs/murthy/test1.txt
+Deleted /user/hdfs/murthy/test1.txt
+
+
+[cloudera@quickstart hadoop]$ hadoop dfs -copyToLocal /user/hdfs/murthy/coverage.txt /home/cloudera/murthy/
+[cloudera@quickstart hadoop]$ cd /
+[cloudera@quickstart /]$ cd /home/cloudera/murthy
+[cloudera@quickstart murthy]$ ls -ltr
+-rw-r--r-- 1 cloudera cloudera  0 Apr 16 08:02 coverage.txt
+
+[cloudera@quickstart hadoop]$ hadoop dfs -moveFromLocal /home/cloudera/murthy/test10.txt /user/hdfs/murthy/
+[cloudera@quickstart hadoop]$ hadoop dfs -ls /user/hdfs/murthy/
+-rw-r--r--   1 cloudera supergroup         76 2018-04-16 08:10 /user/hdfs/murthy/test10.txt
+
+
+
+
+
+
+
+
+
+
